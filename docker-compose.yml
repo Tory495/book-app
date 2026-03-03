@@ -20,7 +20,7 @@ services:
     container_name: yii2_db
     restart: always
     environment:
-      MYSQL_DATABASE: book-app
+      MYSQL_DATABASE: book_app
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"

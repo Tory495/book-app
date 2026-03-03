@@ -16,7 +16,7 @@ docker compose up -d --build
 ```
 Меняем креды для бд:
 ```bash
-common/config/main-local.php
+nano common/config/main-local.php
 ```
 Забуриваемся в один из докер-контейнеров (например в backend)
 ```bash

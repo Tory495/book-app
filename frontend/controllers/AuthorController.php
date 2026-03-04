@@ -48,6 +48,20 @@ class AuthorController extends Controller
         ]);
     }
 
+    public function actionTopAuthors(?int $year = null): string
+    {
+        $targetYear = $year ?: (int)date('Y');
+        $authors = $this->getAuthorService()->getTopAuthors($targetYear);
+
+        return $this->render('top-authors', [
+            'dataProvider' => new \yii\data\ArrayDataProvider([
+                'allModels' => $authors,
+                'pagination' => false,
+            ]),
+            'targetYear' => $targetYear,
+        ]);
+    }
+
     /**
      * Displays a single Author model.
      * @param int $id ID
@@ -115,6 +129,11 @@ class AuthorController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    protected function getAuthorService(): \common\services\author\AuthorService
+    {
+        return Yii::$container->get(\common\services\author\AuthorService::class);
     }
 
     /**

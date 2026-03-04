@@ -1,0 +1,30 @@
+<?php
+
+namespace common\services\author;
+
+use common\models\Author;
+
+final class AuthorService
+{
+    /**
+     * @return Author[]
+     */
+    public function getTopAuthors(?int $year = null): array
+    {
+        $query = Author::find()
+            ->select([
+                '{{%author}}.*', 
+                'books_count' => new \yii\db\Expression('COUNT({{%book_author}}.book_id)')
+            ])
+            ->joinWith('books', false)
+            ->groupBy('{{%author}}.id')
+            ->orderBy(['books_count' => SORT_DESC])
+            ->limit(10);
+
+        if ($year) {
+            $query->andWhere(['{{%book}}.year' => $year]);
+        }
+
+        return $query->all();
+    }
+}

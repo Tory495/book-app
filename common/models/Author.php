@@ -16,6 +16,8 @@ use Yii;
  */
 class Author extends \yii\db\ActiveRecord
 {
+    public ?int $books_count = null;
+
     /**
      * {@inheritdoc}
      */
@@ -74,6 +76,25 @@ class Author extends \yii\db\ActiveRecord
     public function getSubscriptions()
     {
         return $this->hasMany(Subscription::class, ['author_id' => 'id']);
+    }
+
+    public function getTopAuthors(?int $year = null): array
+    {
+        $query = self::find()
+            ->select([
+                '{{%author}}.*',
+                'COUNT({{%book}}.id) AS book_count',
+            ])
+            ->joinWith('books', false)
+            ->groupBy('{{%author}}.id')
+            ->orderBy(['books_count' => SORT_DESC])
+            ->limit(10);
+
+        if ($year) {
+            $query->andWhere(['{{%book}}.year' => $year]);
+        }
+
+        return $query->all();
     }
 
 }

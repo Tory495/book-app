@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use common\services\book\BookImageStorageService;
 
 /**
  * This is the model class for table "book".
@@ -25,12 +24,6 @@ class Book extends \yii\db\ActiveRecord
      */
     public ?array $author_ids = null;
 
-    private ?BookImageStorageService $imageStorageService = null;
-
-    public function imageStorage(): BookImageStorageService
-    {
-        return $this->imageStorageService ?? Yii::$container->get(BookImageStorageService::class);
-    }
     /**
      * {@inheritdoc}
      */
@@ -116,17 +109,12 @@ class Book extends \yii\db\ActiveRecord
         return $this->hasMany(BookAuthor::class, ['book_id' => 'id']);
     }
 
-    public function getMainImageUrl()
-    {
-        return $this->imageStorage()->getImageUrl($this->image);
-    }
-
     public function getAuthorIds(): array
     {
         return $this->getAuthors()->select('id')->column();
     }
 
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }

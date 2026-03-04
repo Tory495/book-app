@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var common\models\Book $model */
 /** @var yii\widgets\ActiveForm $form */
+/** @var string $imageUrl */
 ?>
 
 <div class="book-form">
@@ -19,8 +20,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description')->textarea(['rows' => 6])->label(\Yii::t('app', 'Description')) ?>
 
     <?= $form->field($model, 'isbn')->textInput(['maxlength' => true])->label(\Yii::t('app', 'ISBN')) ?>
-
-    <?php $imageUrl = $model->getMainImageUrl(); ?>
 
     <?php if ($imageUrl): ?>
         <div class="current-image mt-2 mb-3">

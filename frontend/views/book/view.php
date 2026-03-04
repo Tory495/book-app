@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'isbn',
             [
                 'attribute' => 'image',
-                'value' => $model->getMainImageUrl(),
+                'value' => $imageUrl,
                 'format' => ['image', ['width' => '200', 'height' => '200']],
             ],
         ],

@@ -58,8 +58,11 @@ class BookController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'imageUrl' => $this->getBookService()->getMainImageUrl($model->image)
         ]);
     }
 
@@ -83,7 +86,10 @@ class BookController extends Controller
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', ['model' => $model]);
+        return $this->render('create', [
+            'model' => $model,
+            'imageUrl' => $service->getMainImageUrl($model->image),
+        ]);
     }
 
     /**
@@ -108,7 +114,10 @@ class BookController extends Controller
             $model->author_ids = $model->getAuthorIds();
         }
 
-        return $this->render('update', ['model' => $model]);
+        return $this->render('update', [
+            'model' => $model,
+            'imageUrl' => $service->getMainImageUrl($model->image),
+        ]);
     }
 
     /**

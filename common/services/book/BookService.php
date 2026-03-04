@@ -48,4 +48,9 @@ final class BookService
 
         return $book->delete();
     }
+
+    public function getMainImageUrl(?string $imageName): string
+    {
+        return $this->imageStorage->getImageUrl($imageName);
+    }
 }

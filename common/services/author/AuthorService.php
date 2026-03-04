@@ -16,7 +16,7 @@ final class AuthorService
                 '{{%author}}.*', 
                 'books_count' => new \yii\db\Expression('COUNT({{%book_author}}.book_id)')
             ])
-            ->joinWith('books', false)
+            ->joinWith('books', false, 'INNER JOIN')
             ->groupBy('{{%author}}.id')
             ->orderBy(['books_count' => SORT_DESC])
             ->limit(10);

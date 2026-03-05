@@ -17,8 +17,8 @@ return [
         ],
         'sms' => [
             'class' => \common\components\SmsPilot::class,
-            'apiKey' => $params['smsComponentApiKey'],
-            'sender' => $params['smsComponentSender'],
+            'apiKey' => $params['smsComponentApiKey'] ?? '',
+            'sender' => $params['smsComponentSender'] ?? 'INFORM',
         ],
         'authManager' => [
             'class' => \yii\rbac\DbManager::class,

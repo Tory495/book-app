@@ -45,6 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $imageUrl,
                 'format' => ['image', ['width' => '200', 'height' => '200']],
             ],
+            'authors' => [
+                'attribute' => 'authors',
+                'value' => fn() => implode(', ', $model->getAuthors()->select('full_name')->column()),
+            ],
         ],
     ]) ?>
 

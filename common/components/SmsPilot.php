@@ -15,8 +15,8 @@ class SmsPilot extends Component
     public function send(string $to, string $text): bool
     {
         $url = self::API_URL . '?' . http_build_query([
-            'send' => $text,
-            'to' => $to,
+            'send' => urlencode($text),
+            'to' => urlencode($to),
             'from' => $this->sender,
             'apikey' => $this->apiKey,
             'format' => 'json'
@@ -25,7 +25,12 @@ class SmsPilot extends Component
         try {
             $response = file_get_contents($url);
             $result = Json::decode($response);
-            return isset($result['send']);
+
+            if (isset($result['error'])) {
+                throw new \Exception($result['error']['description'] ?? 'Unknown error');
+            }
+
+            return true;
         } catch (\Exception $e) {
             \Yii::error("SMS error: " . $e->getMessage());
             return false;

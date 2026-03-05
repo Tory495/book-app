@@ -20,8 +20,6 @@ final class BookService
 
     public function save(Book $book, ?UploadedFile $image = null): bool
     {
-        $book->addError('', Yii::t('app', 'Failed to save book.'));
-        return false;
         $isNewRecord = $book->isNewRecord;
         $oldImage = $book->getOldAttribute('image');
         $newImage = null;

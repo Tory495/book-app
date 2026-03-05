@@ -36,8 +36,6 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => \Yii::t('app', 'Books'), 'url' => ['/book/index']],
         ['label' => \Yii::t('app', 'Authors'), 'url' => ['/author/index']],
         ['label' => \Yii::t('app', 'Top 10 Authors'), 'url' => ['/author/top-authors']],

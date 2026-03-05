@@ -15,8 +15,6 @@ use Yii;
  */
 class Subscription extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */

@@ -15,8 +15,6 @@ use Yii;
  */
 class BookAuthor extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */

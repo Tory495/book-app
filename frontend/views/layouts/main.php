@@ -41,6 +41,7 @@ AppAsset::register($this);
         ['label' => \Yii::t('app', 'Books'), 'url' => ['/book/index']],
         ['label' => \Yii::t('app', 'Authors'), 'url' => ['/author/index']],
         ['label' => \Yii::t('app', 'Top 10 Authors'), 'url' => ['/author/top-authors']],
+        ['label' => \Yii::t('app', 'Subscribe'), 'url' => ['/subscription/create']],
     ];
     if (\Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

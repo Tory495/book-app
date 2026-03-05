@@ -25,4 +25,12 @@ final class AuthorRepo implements AuthorRepoInterface
 
         return $query->all();
     }
+
+    /**
+     * @return Author[]
+     */
+    public function getAll(): array
+    {
+        return Author::find()->orderBy(['full_name' => SORT_ASC])->all();
+    }
 }

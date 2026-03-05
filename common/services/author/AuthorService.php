@@ -18,4 +18,12 @@ final class AuthorService
     {
         return $this->authorRepo->getTopAuthors($year);
     }
+
+    /**
+     * @return Author[]
+     */
+    public function getAll(): array
+    {
+        return $this->authorRepo->getAll();
+    }
 }

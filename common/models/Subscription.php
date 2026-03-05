@@ -35,6 +35,9 @@ class Subscription extends \yii\db\ActiveRecord
             [['author_id'], 'integer'],
             [['phone'], 'string', 'max' => 20],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => Author::class, 'targetAttribute' => ['author_id' => 'id']],
+            ['phone', 'match', 'pattern' => '/^\+79\d{9}$/', 'message' => Yii::t('app', 'Phone must be in format +79XXXXXXXXX (11 digits)')],
+            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => Author::class, 'targetAttribute' => ['author_id' => 'id']],
+            [['author_id', 'phone'], 'unique', 'targetAttribute' => ['author_id', 'phone'], 'message' => Yii::t('app', 'This phone is already subscribed to this author')],
         ];
     }
 

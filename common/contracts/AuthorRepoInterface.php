@@ -10,4 +10,9 @@ interface AuthorRepoInterface
      * @return Author[]
      */
     public function getTopAuthors(?int $year = null): array;
+
+    /**
+     * @return Author[]
+     */
+    public function getAll(): array;
 }

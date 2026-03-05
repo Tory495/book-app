@@ -16,6 +16,7 @@ final class SubscriptionRepo implements SubscriptionRepoInterface
         return Subscription::find()
             ->where(['author_id' => $authorIds])
             ->select('phone')
+            ->distinct()
             ->column();
     }
 }

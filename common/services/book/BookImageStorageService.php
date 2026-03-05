@@ -4,8 +4,9 @@ namespace common\services\book;
 
 use yii\web\UploadedFile;
 use Yii;
+use common\contracts\ImageStorageServiceInterface;
 
-class BookImageStorageService
+final class BookImageStorageService implements ImageStorageServiceInterface
 {
     private const string STORAGE_DIR_ALIAS = '@frontend/web/uploads';
     private const string PUBLIC_URL_ALIAS = '@web/uploads';
@@ -35,12 +36,12 @@ class BookImageStorageService
         return Yii::getAlias(self::PUBLIC_URL_ALIAS) . '/' . $imageName;
     }
 
-    public function getPlaceholderImageUrl(): string
+    private function getPlaceholderImageUrl(): string
     {
         return Yii::getAlias(self::PUBLIC_URL_ALIAS) . '/' . self::PLACEHOLDER_IMAGE_NAME;
     }
 
-    public function isImageExists(string $imageName): bool
+    private function isImageExists(string $imageName): bool
     {
         return file_exists(Yii::getAlias(self::STORAGE_DIR_ALIAS) . '/' . $imageName);
     }

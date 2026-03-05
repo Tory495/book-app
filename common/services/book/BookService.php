@@ -5,11 +5,14 @@ namespace common\services\book;
 use common\models\Book;
 use Yii;
 use yii\web\UploadedFile;
+use common\contracts\ImageStorageServiceInterface;
+use common\contracts\SubscriptionServiceInterface;
 
 final class BookService
 {
     public function __construct(
-        private BookImageStorageService $imageStorage,
+        private ImageStorageServiceInterface $imageStorage,
+        private SubscriptionServiceInterface $subscriptionService,
     ) {}
 
     public function save(Book $book, ?UploadedFile $image = null): bool
@@ -37,7 +40,14 @@ final class BookService
             $book->image = $book->getOldAttribute('image');
         }
 
-        return $book->save();
+        if (!$book->save()) {
+            return false;
+        }
+
+        // TODO: вообще я бы реализовал очередь в случае падения сервиса, но тут это не так важно
+        $this->subscriptionService->sendNewBookNotification($book);
+
+        return true;
     }
 
     public function delete(Book $book): bool

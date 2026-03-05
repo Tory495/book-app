@@ -3,28 +3,19 @@
 namespace common\services\author;
 
 use common\models\Author;
+use common\contracts\AuthorRepoInterface;
 
 final class AuthorService
 {
+    public function __construct(
+        private AuthorRepoInterface $authorRepo,
+    ) {}
+
     /**
      * @return Author[]
      */
     public function getTopAuthors(?int $year = null): array
     {
-        $query = Author::find()
-            ->select([
-                '{{%author}}.*', 
-                'books_count' => new \yii\db\Expression('COUNT({{%book_author}}.book_id)')
-            ])
-            ->joinWith('books', false, 'INNER JOIN')
-            ->groupBy('{{%author}}.id')
-            ->orderBy(['books_count' => SORT_DESC])
-            ->limit(10);
-
-        if ($year) {
-            $query->andWhere(['{{%book}}.year' => $year]);
-        }
-
-        return $query->all();
+        return $this->authorRepo->getTopAuthors($year);
     }
 }

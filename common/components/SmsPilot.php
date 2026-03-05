@@ -7,7 +7,7 @@ use yii\helpers\Json;
 
 class SmsPilot extends Component
 {
-    private const API_URL = 'https://smspilot.ru';
+    private const API_URL = 'https://smspilot.ru/api.php';
 
     public string $apiKey;
     public string $sender = 'INFORM';

@@ -22,11 +22,15 @@ final class SubscriptionService implements SubscriptionServiceInterface
 
     public function sendNewBookNotification(Book $book): void
     {
-        $authorIds = $book->getAuthorIds();
-        $phones = $this->getPhonesByAuthorIds($authorIds);
+        $authors = $book->getAuthors()->all();
+        $phones = $this->getPhonesByAuthorIds(array_map(fn($a) => $a->id, $authors));
+        $authorNames = implode(', ', array_map(fn($a) => $a->full_name, $authors));
 
         foreach ($phones as $phone) {
-            \Yii::$app->sms->send($phone, "Новая книга: {$book->title} от {$book->author->full_name}");
+            \Yii::$app->sms->send($phone, \Yii::t('app', 'New book: {title} by {author}', [
+                'title' => $book->title,
+                'author' => $authorNames,
+            ]));
         }
     }
 }

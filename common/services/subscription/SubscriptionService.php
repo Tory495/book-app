@@ -3,9 +3,10 @@
 namespace common\services\subscription;
 
 use common\contracts\SubscriptionRepoInterface;
+use common\contracts\SubscriptionServiceInterface;
 use common\models\Book;
 
-final class SubscriptionService
+final class SubscriptionService implements SubscriptionServiceInterface
 {
     public function __construct(
         private SubscriptionRepoInterface $subscriptionRepo,

@@ -13,7 +13,7 @@ class m260305_132542_add_unique_index_subscription_author_phone extends Migratio
             'ux_subscription_author_phone',
             '{{%subscription}}',
             ['author_id', 'phone'],
-            unique: true
+            true
         );
     }
 

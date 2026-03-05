@@ -18,35 +18,61 @@ final class BookService
     public function save(Book $book, ?UploadedFile $image = null): bool
     {
         $isNewRecord = $book->isNewRecord;
+        $oldImage = $book->getOldAttribute('image');
+        $newImage = null;
 
         if ($image) {
             try {
-                $imageName = $this->imageStorage->saveImage($image);
+                $newImage = $this->imageStorage->saveImage($image);
 
-                if (!$imageName) {
+                if (!$newImage) {
                     $book->addError('image', Yii::t('app', 'Failed to save image file.'));
                     return false;
                 }
 
-                if (!$isNewRecord && $book->getOldAttribute('image')) {
-                    $this->imageStorage->deleteImage($book->getOldAttribute('image'));
-                }
-
-                $book->image = $imageName;
+                $book->image = $newImage;
             } catch (\Throwable $e) {
                 Yii::error($e->getMessage(), __METHOD__);
                 $book->addError('image', Yii::t('app', 'Failed to save image file.'));
                 return false;
             }
         } elseif (!$isNewRecord) {
-            $book->image = $book->getOldAttribute('image');
+            $book->image = $oldImage;
         }
 
-        if (!$book->save()) {
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            if (!$book->save()) {
+                $transaction->rollBack();
+
+                if ($newImage) {
+                    $this->imageStorage->deleteImage($newImage);
+                }
+                
+                return false;
+            }
+
+            $transaction->commit();
+        } catch (\Throwable $th) {
+            if ($transaction->isActive) {
+                $transaction->rollBack();
+            }
+
+            if ($newImage) {
+                $this->imageStorage->deleteImage($newImage);
+            }
+
+            Yii::error($th->getMessage(), __METHOD__);
+            $book->addError('image', Yii::t('app', 'Failed to save book.'));
             return false;
         }
 
-        // TODO: вообще я бы реализовал очередь в случае падения сервиса, но тут это не так важно
+        if ($newImage && !$isNewRecord && $oldImage) {
+            $this->imageStorage->deleteImage($oldImage);
+        }
+
+        // TODO: Вообще я бы реализовал очередь в случае падения сервиса, но тут это не так важно
         if ($isNewRecord) {
             $this->subscriptionService->sendNewBookNotification($book);
         }

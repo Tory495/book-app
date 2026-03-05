@@ -15,8 +15,8 @@ class SmsPilot extends Component
     public function send(string $to, string $text): bool
     {
         $url = self::API_URL . '?' . http_build_query([
-            'send' => urlencode($text),
-            'to' => urlencode($to),
+            'send' => $text,
+            'to' => $to,
             'from' => $this->sender,
             'apikey' => $this->apiKey,
             'format' => 'json'

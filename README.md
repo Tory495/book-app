@@ -30,3 +30,11 @@ php init
 ```bash
 php yii migrate
 ```
+Rbac:
+```bash
+php yii migrate --migrationPath=@yii/rbac/migrations
+```
+
+```bash
+php yii rbac/init
+```

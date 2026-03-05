@@ -18,15 +18,15 @@ docker compose up -d --build
 ```bash
 nano common/config/main-local.php
 ```
-Забуриваемся в один из докер-контейнеров (например в backend)
+Забуриваемся в один из докер-контейнеров (например в backend):
 ```bash
 docker exec -it book-app-backend-1 bash
 ```
-Инициализируем приложение (пока в режиме development)
+Инициализируем приложение (пока в режиме development):
 ```bash
 php init
 ```
-Запускаем миграции
+Запускаем миграции:
 ```bash
 php yii migrate
 ```
@@ -34,7 +34,10 @@ Rbac:
 ```bash
 php yii migrate --migrationPath=@yii/rbac/migrations
 ```
-
 ```bash
 php yii rbac/init
+```
+Rbac ручная передача прав:
+```bash
+php yii rbac/assign *USER_ID*
 ```

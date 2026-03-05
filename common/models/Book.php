@@ -114,9 +114,4 @@ class Book extends \yii\db\ActiveRecord
         return $this->getAuthors()->select('id')->column();
     }
 
-    public function getImage(): string
-    {
-        return $this->image;
-    }
-
 }

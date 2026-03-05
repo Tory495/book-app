@@ -10,7 +10,7 @@ class SmsPilot extends Component
     private const API_URL = 'https://smspilot.ru/api.php';
 
     public string $apiKey;
-    public string $sender = 'INFORM';
+    public string $sender;
 
     public function send(string $to, string $text): bool
     {

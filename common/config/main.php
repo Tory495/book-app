@@ -1,5 +1,10 @@
 <?php
 
+$params = array_merge(
+    require __DIR__ . '/params.php',
+    require __DIR__ . '/params-local.php'
+);
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -12,7 +17,8 @@ return [
         ],
         'sms' => [
             'class' => \common\components\SmsPilot::class,
-            'apiKey' => 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ',
+            'apiKey' => $params['smsComponentApiKey'],
+            'sender' => $params['smsComponentSender'],
         ],
         'authManager' => [
             'class' => \yii\rbac\DbManager::class,

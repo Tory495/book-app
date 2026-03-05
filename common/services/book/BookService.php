@@ -17,6 +17,8 @@ final class BookService
 
     public function save(Book $book, ?UploadedFile $image = null): bool
     {
+        $isNewRecord = $book->isNewRecord;
+
         if ($image) {
             try {
                 $imageName = $this->imageStorage->saveImage($image);
@@ -26,7 +28,7 @@ final class BookService
                     return false;
                 }
 
-                if (!$book->isNewRecord && $book->getOldAttribute('image')) {
+                if (!$isNewRecord && $book->getOldAttribute('image')) {
                     $this->imageStorage->deleteImage($book->getOldAttribute('image'));
                 }
 
@@ -36,7 +38,7 @@ final class BookService
                 $book->addError('image', Yii::t('app', 'Failed to save image file.'));
                 return false;
             }
-        } elseif (!$book->isNewRecord) {
+        } elseif (!$isNewRecord) {
             $book->image = $book->getOldAttribute('image');
         }
 
@@ -45,7 +47,9 @@ final class BookService
         }
 
         // TODO: вообще я бы реализовал очередь в случае падения сервиса, но тут это не так важно
-        $this->subscriptionService->sendNewBookNotification($book);
+        if ($isNewRecord) {
+            $this->subscriptionService->sendNewBookNotification($book);
+        }
 
         return true;
     }

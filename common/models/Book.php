@@ -56,27 +56,6 @@ class Book extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-
-        $this->unlinkAll('authors', true);
-
-        if (!$this->author_ids) {
-            return;
-        }
-
-        /** @var Author[] $authors */
-        $authors = Author::findAll($this->author_ids);
-
-        foreach ($authors as $author) {
-            $this->link('authors', $author);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

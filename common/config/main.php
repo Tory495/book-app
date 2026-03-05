@@ -30,6 +30,7 @@ return [
             \common\contracts\AuthorRepoInterface::class => \common\repo\mysql\author\AuthorRepo::class,
             \common\contracts\ImageStorageServiceInterface::class => \common\services\book\BookImageStorageService::class,
             \common\contracts\SubscriptionServiceInterface::class => \common\services\subscription\SubscriptionService::class,
+            \common\contracts\AuthorServiceInterface::class => \common\services\author\AuthorService::class,
         ],
     ],
 ];

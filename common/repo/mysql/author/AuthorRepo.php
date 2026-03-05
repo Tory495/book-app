@@ -33,4 +33,13 @@ final class AuthorRepo implements AuthorRepoInterface
     {
         return Author::find()->orderBy(['full_name' => SORT_ASC])->all();
     }
+
+    /**
+     * @param int[] $ids
+     * @return Author[]
+     */
+    public function getByIds(array $ids): array
+    {
+        return Author::find()->where(['id' => $ids])->all();
+    }
 }

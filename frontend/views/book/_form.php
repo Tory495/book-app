@@ -13,6 +13,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
+    <?= $form->errorSummary($model, ['class' => 'alert alert-danger']) ?>
+
     <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label(\Yii::t('app', 'Title')) ?>
 
     <?= $form->field($model, 'year')->input('number')->label(\Yii::t('app', 'Year')) ?>

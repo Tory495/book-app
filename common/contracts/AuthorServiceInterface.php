@@ -4,7 +4,7 @@ namespace common\contracts;
 
 use common\models\Author;
 
-interface AuthorRepoInterface
+interface AuthorServiceInterface
 {
     /**
      * @return Author[]

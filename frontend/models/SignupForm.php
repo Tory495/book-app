@@ -56,7 +56,13 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        if (!$user->save()) {
+            return false;
+        }
+
+        $this->assignDefaultUserRole((int)$user->id);
+
+        return $this->sendEmail($user);
     }
 
     /**
@@ -76,5 +82,20 @@ class SignupForm extends Model
             ->setTo($this->email)
             ->setSubject('Account registration at ' . Yii::$app->name)
             ->send();
+    }
+
+    private function assignDefaultUserRole(int $userId): void
+    {
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole('user');
+
+        if ($role === null) {
+            Yii::warning("RBAC role 'user' not found. Run rbac/init.", __METHOD__);
+            return;
+        }
+
+        if (!$auth->getAssignment('user', $userId)) {
+            $auth->assign($role, $userId);
+        }
     }
 }

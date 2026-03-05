@@ -14,6 +14,9 @@ return [
             'class' => \common\components\SmsPilot::class,
             'apiKey' => 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ',
         ],
+        'authManager' => [
+            'class' => \yii\rbac\DbManager::class,
+        ],
     ],
     'container' => [
         'definitions' => [

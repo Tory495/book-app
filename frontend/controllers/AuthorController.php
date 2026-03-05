@@ -28,6 +28,31 @@ class AuthorController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'rules' => [
+                        [
+                            'actions' => ['create'],
+                            'allow' => true,
+                            'roles' => ['createAuthor'],
+                        ],
+                        [
+                            'actions' => ['update'],
+                            'allow' => true,
+                            'roles' => ['updateAuthor'],
+                        ],
+                        [
+                            'actions' => ['delete'],
+                            'allow' => true,
+                            'roles' => ['deleteAuthor'],
+                        ],
+                        [
+                            'actions' => ['index', 'view', 'top-authors'],
+                            'allow' => true,
+                            'roles' => ['@', '?'],
+                        ],
+                    ],
+                    'class' => \yii\filters\AccessControl::class,
+                ],
             ]
         );
     }
